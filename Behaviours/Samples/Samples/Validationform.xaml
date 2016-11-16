@@ -1,0 +1,218 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="Samples.Validationform"
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Samples;assembly=Samples"
+             Title="LoginValidation">
+
+    <ContentPage.Resources>
+
+        <ResourceDictionary>
+
+            <local:StringToObjectConverter x:Key="stringToStyleImage" x:TypeArguments="Style">
+                <local:StringToObjectConverter.EmptyObject>
+                    <Style TargetType="Image">
+                        <Setter Property="HeightRequest" Value="20" />
+                        <Setter Property="Source" Value="{local:ImageResource Samples.Images.star_outline.png}" />
+                    </Style>
+                </local:StringToObjectConverter.EmptyObject>
+
+                <local:StringToObjectConverter.FalseObject>
+                    <Style TargetType="Image">
+                        <Setter Property="HeightRequest" Value="20" />
+                        <Setter Property="Source" Value="{local:ImageResource Samples.Images.error.png}" />
+                    </Style>
+                </local:StringToObjectConverter.FalseObject>
+
+                <local:StringToObjectConverter.TrueObject>
+                    <Style TargetType="Image">
+                        <Setter Property="HeightRequest" Value="20" />
+                        <Setter Property="Source" Value="{local:ImageResource Samples.Images.success.png}" />
+                    </Style>
+                </local:StringToObjectConverter.TrueObject>
+            </local:StringToObjectConverter>
+
+            <local:BooleanToObjectConverter x:Key="boolToStyleImage" x:TypeArguments="Style">
+                <local:BooleanToObjectConverter.FalseObject>
+                    <Style TargetType="Image">
+                        <Setter Property="HeightRequest" Value="20" />
+                        <Setter Property="Source" Value="{local:ImageResource Samples.Images.error.png}" />
+                    </Style>
+                </local:BooleanToObjectConverter.FalseObject>
+
+                <local:BooleanToObjectConverter.TrueObject>
+                    <Style TargetType="Image">
+                        <Setter Property="HeightRequest" Value="20" />
+                        <Setter Property="Source" Value="{local:ImageResource Samples.Images.success.png}" />
+                    </Style>
+                </local:BooleanToObjectConverter.TrueObject>
+            </local:BooleanToObjectConverter>
+
+            <Style x:Key="baseStyle" TargetType="Label">
+                <Setter Property="XAlign" Value="Start" />
+                <Setter Property="YAlign" Value="Center" />
+                <Setter Property="FontSize" Value="Micro" />
+                <Setter Property="FontAttributes" Value="Italic" />
+            </Style>
+
+            <local:BooleanToObjectConverter x:Key="boolToStyleUserName" x:TypeArguments="Style">
+                <local:BooleanToObjectConverter.FalseObject>
+                    <Style BasedOn="{StaticResource baseStyle}" TargetType="Label">
+                        <Setter Property="TextColor" Value="#F44336" />
+                        <Setter Property="Text" Value="Enter a valid User Name" />
+                    </Style>
+                </local:BooleanToObjectConverter.FalseObject>
+
+                <local:BooleanToObjectConverter.TrueObject>
+                    <Style BasedOn="{StaticResource baseStyle}" TargetType="Label">
+                        <Setter Property="TextColor" Value="#4CAF50" />
+                        <Setter Property="Text" Value="You are the valid user" />
+                    </Style>
+                </local:BooleanToObjectConverter.TrueObject>
+
+            </local:BooleanToObjectConverter>
+
+            <local:BooleanToObjectConverter x:Key="boolToStylePassword" x:TypeArguments="Style">
+                <local:BooleanToObjectConverter.FalseObject>
+                    <Style BasedOn="{StaticResource baseStyle}" TargetType="Label">
+                        <Setter Property="TextColor" Value="#F44336" />
+                        <Setter Property="Text" Value="Enter a valid Password" />
+                    </Style>
+                </local:BooleanToObjectConverter.FalseObject>
+
+                <local:BooleanToObjectConverter.TrueObject>
+                    <Style BasedOn="{StaticResource baseStyle}" TargetType="Label">
+                        <Setter Property="TextColor" Value="#4CAF50" />
+                        <Setter Property="Text" Value="your Password is valid" />
+                    </Style>
+                </local:BooleanToObjectConverter.TrueObject>
+
+            </local:BooleanToObjectConverter>
+
+            <local:BooleanToObjectConverter x:Key="boolToStyleConfirmpwd" x:TypeArguments="Style">
+                <local:BooleanToObjectConverter.FalseObject>
+                    <Style BasedOn="{StaticResource baseStyle}" TargetType="Label">
+                        <Setter Property="TextColor" Value="#F44336" />
+                        <Setter Property="Text" Value="Enter a valid Confirmpassword" />
+                    </Style>
+                </local:BooleanToObjectConverter.FalseObject>
+
+                <local:BooleanToObjectConverter.TrueObject>
+                    <Style BasedOn="{StaticResource baseStyle}" TargetType="Label">
+                        <Setter Property="TextColor" Value="#4CAF50" />
+                        <Setter Property="Text" Value="your Password is valid" />
+                    </Style>
+                </local:BooleanToObjectConverter.TrueObject>
+
+            </local:BooleanToObjectConverter>
+
+        </ResourceDictionary>
+
+    </ContentPage.Resources>
+    <StackLayout>
+        <Grid x:Name="grdValidation">
+
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="40" />
+            </Grid.ColumnDefinitions>
+
+            <Entry Grid.Row="0"
+                   Grid.Column="1"
+                   Placeholder="Username">
+                <Entry.Behaviors>
+                    <local:UserValidatorBehavior x:Name="userValidator" />
+                </Entry.Behaviors>
+            </Entry>
+
+            <Image x:Name="userSuccessErrorImage"
+                   Grid.Row="0"
+                   Grid.Column="2"
+                   Style="{Binding Source={x:Reference userValidator},
+                                   Path=IsValid,
+                                   Converter={StaticResource stringToStyleImage}}" />
+
+            <Label Grid.Row="1"
+                   Grid.Column="1"
+                   Style="{Binding Source={x:Reference userValidator},
+                                   Path=IsValid,
+                                   Converter={StaticResource boolToStyleUserName}}" />
+
+            <Entry x:Name="password"
+                   Grid.Row="2"
+                   Grid.Column="1"
+                   Placeholder="Password">
+                <Entry.Behaviors>
+                    <local:PasswordValidator x:Name="pwdValidator" />
+                </Entry.Behaviors>
+            </Entry>
+
+            <Image x:Name="PasswordSuccessErrorImage"
+                   Grid.Row="2"
+                   Grid.Column="2"
+                   Style="{Binding Source={x:Reference pwdValidator},
+                                   Path=IsValid,
+                                   Converter={StaticResource boolToStyleImage}}" />
+
+            <Label Grid.Row="3"
+                   Grid.Column="1"
+                   Style="{Binding Source={x:Reference pwdValidator},
+                                   Path=IsValid,
+                                   Converter={StaticResource boolToStylePassword}}" />
+
+            <Entry Grid.Row="4"
+                   Grid.Column="1"
+                   Placeholder="Confirmpassword">
+                <Entry.Behaviors>
+                    <local:ConfirmPasswordBehavior x:Name="ConfirmpwdValidator" CompareToEntry="{Binding Source={x:Reference password}}" />
+                </Entry.Behaviors>
+            </Entry>
+
+            <Image x:Name="ConfirmpwdSuccessErrorImage"
+                   Grid.Row="4"
+                   Grid.Column="2"
+                   Style="{Binding Source={x:Reference ConfirmpwdValidator},
+                                   Path=IsValid,
+                                   Converter={StaticResource boolToStyleImage}}" />
+
+            <Label Grid.Row="5"
+                   Grid.Column="1"
+                   Style="{Binding Source={x:Reference ConfirmpwdValidator},
+                                   Path=IsValid,
+                                   Converter={StaticResource boolToStyleConfirmpwd}}" />
+
+            <Button x:Name="Submit"
+                    Grid.Row="6"
+                    Grid.Column="1"
+                    Clicked="btn_Submit"
+                    Text="Login" />
+
+            <!--<Image x:Name="ConfirmpwdSuccessErrorImage"
+                   Grid.Row="6"
+                   Grid.Column="2"
+                   Style="{Binding Source={x:Reference btnValidator},
+                                   Path=IsValid,
+                                   Converter={StaticResource boolToStyleImage}}" />
+                                   <Button.Behaviors>
+                    <local:ButtonValidationBehavior x:Name="btnValidator"
+                                                    Clicked="btn_Submit"
+                                                    CompareToEntry="{Binding Source={x:Reference password}}" />
+                </Button.Behaviors>-->
+
+
+        </Grid>
+
+    </StackLayout>
+</ContentPage>

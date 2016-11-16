@@ -1,0 +1,304 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="Samples.RegistrationFormVAlidation"
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Samples;assembly=Samples"
+             Title="RegistrationForm">
+    <ContentPage.Resources>
+
+        <ResourceDictionary>
+
+            <local:BooleanToObjectConverter x:Key="boolToStyleImage" x:TypeArguments="Style">
+                <local:BooleanToObjectConverter.FalseObject>
+                    <Style TargetType="Image">
+                        <Setter Property="HeightRequest" Value="20" />
+                        <Setter Property="Source" Value="{local:ImageResource Samples.Images.error.png}" />
+                    </Style>
+                </local:BooleanToObjectConverter.FalseObject>
+
+                <local:BooleanToObjectConverter.TrueObject>
+                    <Style TargetType="Image">
+                        <Setter Property="HeightRequest" Value="20" />
+                        <Setter Property="Source" Value="{local:ImageResource Samples.Images.success.png}" />
+                    </Style>
+                </local:BooleanToObjectConverter.TrueObject>
+            </local:BooleanToObjectConverter>
+
+            <Style x:Key="baseStyle" TargetType="Label">
+                <Setter Property="XAlign" Value="Start" />
+                <Setter Property="YAlign" Value="Center" />
+                <Setter Property="FontSize" Value="Micro" />
+                <Setter Property="FontAttributes" Value="Italic" />
+            </Style>
+
+            <local:BooleanToObjectConverter x:Key="boolToStyleEmail" x:TypeArguments="Style">
+                <local:BooleanToObjectConverter.FalseObject>
+                    <Style BasedOn="{StaticResource baseStyle}" TargetType="Label">
+                        <Setter Property="TextColor" Value="#F44336" />
+                        <Setter Property="Text" Value="Enter a valid email" />
+                    </Style>
+                </local:BooleanToObjectConverter.FalseObject>
+
+                <local:BooleanToObjectConverter.TrueObject>
+                    <Style BasedOn="{StaticResource baseStyle}" TargetType="Label">
+                        <Setter Property="TextColor" Value="#4CAF50" />
+                        <Setter Property="Text" Value="Your email looks good" />
+                    </Style>
+                </local:BooleanToObjectConverter.TrueObject>
+
+            </local:BooleanToObjectConverter>
+
+            <local:BooleanToObjectConverter x:Key="boolToStyleAge" x:TypeArguments="Style">
+                <local:BooleanToObjectConverter.FalseObject>
+                    <Style BasedOn="{StaticResource baseStyle}" TargetType="Label">
+                        <Setter Property="TextColor" Value="#F44336" />
+                        <Setter Property="Text" Value="Enter numeric values" />
+                    </Style>
+                </local:BooleanToObjectConverter.FalseObject>
+
+                <local:BooleanToObjectConverter.TrueObject>
+                    <Style BasedOn="{StaticResource baseStyle}" TargetType="Label">
+                        <Setter Property="TextColor" Value="#4CAF50" />
+                        <Setter Property="Text" Value="You are very young!" />
+                    </Style>
+                </local:BooleanToObjectConverter.TrueObject>
+
+            </local:BooleanToObjectConverter>
+
+            <local:GenderConverter x:Key="genderConverter" />
+
+            <local:BooleanToObjectConverter x:Key="boolToStylePhoneNo" x:TypeArguments="Style">
+                <local:BooleanToObjectConverter.FalseObject>
+                    <Style BasedOn="{StaticResource baseStyle}" TargetType="Label">
+                        <Setter Property="TextColor" Value="#F44336" />
+                        <Setter Property="Text" Value="Enter valid Phone number" />
+                    </Style>
+                </local:BooleanToObjectConverter.FalseObject>
+
+                <local:BooleanToObjectConverter.TrueObject>
+                    <Style BasedOn="{StaticResource baseStyle}" TargetType="Label">
+                        <Setter Property="TextColor" Value="#4CAF50" />
+                        <Setter Property="Text" Value="Enter Phone number!" />
+                    </Style>
+                </local:BooleanToObjectConverter.TrueObject>
+
+            </local:BooleanToObjectConverter>
+
+            <local:BooleanToObjectConverter x:Key="boolToStyleAddress" x:TypeArguments="Style">
+                <local:BooleanToObjectConverter.FalseObject>
+                    <Style BasedOn="{StaticResource baseStyle}" TargetType="Label">
+                        <Setter Property="TextColor" Value="#F44336" />
+                        <Setter Property="Text" Value="Enter valid Address" />
+                    </Style>
+                </local:BooleanToObjectConverter.FalseObject>
+
+                <local:BooleanToObjectConverter.TrueObject>
+                    <Style BasedOn="{StaticResource baseStyle}" TargetType="Label">
+                        <Setter Property="TextColor" Value="#4CAF50" />
+                        <Setter Property="Text" Value="Enter your Address!" />
+                    </Style>
+                </local:BooleanToObjectConverter.TrueObject>
+
+            </local:BooleanToObjectConverter>
+
+            <local:BooleanToObjectConverter x:Key="boolToStyleUrl" x:TypeArguments="Style">
+                <local:BooleanToObjectConverter.FalseObject>
+                    <Style BasedOn="{StaticResource baseStyle}" TargetType="Label">
+                        <Setter Property="TextColor" Value="#F44336" />
+                        <Setter Property="Text" Value="Enter valid Url" />
+                    </Style>
+                </local:BooleanToObjectConverter.FalseObject>
+
+                <local:BooleanToObjectConverter.TrueObject>
+                    <Style BasedOn="{StaticResource baseStyle}" TargetType="Label">
+                        <Setter Property="TextColor" Value="#4CAF50" />
+                        <Setter Property="Text" Value="Enter Url address!" />
+                    </Style>
+                </local:BooleanToObjectConverter.TrueObject>
+
+            </local:BooleanToObjectConverter>
+
+            <local:BooleanToObjectConverter x:Key="boolToStyleDate" x:TypeArguments="Style">
+                <local:BooleanToObjectConverter.FalseObject>
+                    <Style BasedOn="{StaticResource baseStyle}" TargetType="Label">
+                        <Setter Property="TextColor" Value="#F44336" />
+                        <Setter Property="Text" Value="Enter valid Date" />
+                    </Style>
+                </local:BooleanToObjectConverter.FalseObject>
+
+                <local:BooleanToObjectConverter.TrueObject>
+                    <Style BasedOn="{StaticResource baseStyle}" TargetType="Label">
+                        <Setter Property="TextColor" Value="#4CAF50" />
+                        <Setter Property="Text" Value="Enter Date!" />
+                    </Style>
+                </local:BooleanToObjectConverter.TrueObject>
+
+            </local:BooleanToObjectConverter>
+
+
+        </ResourceDictionary>
+
+    </ContentPage.Resources>
+
+    <StackLayout>
+        <Grid x:Name="grdValidation">
+
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="40" />
+            </Grid.ColumnDefinitions>
+
+            <Entry Grid.Row="0"
+                   Grid.Column="1"
+                   Placeholder="Email">
+                <Entry.Behaviors>
+                    <local:EmailValidatorBehavior x:Name="emailValidator" />
+                </Entry.Behaviors>
+            </Entry>
+
+            <Image x:Name="emailSuccessErrorImage"
+                   Grid.Row="0"
+                   Grid.Column="2"
+                   Style="{Binding Source={x:Reference emailValidator},
+                                   Path=IsValid,
+                                   Converter={StaticResource boolToStyleImage}}" />
+
+            <Label Grid.Row="1"
+                   Grid.Column="1"
+                   Style="{Binding Source={x:Reference emailValidator},
+                                   Path=IsValid,
+                                   Converter={StaticResource boolToStyleEmail}}" />
+
+            <Entry Grid.Row="2"
+                   Grid.Column="1"
+                   Placeholder="PhoneNumber">
+                <Entry.Behaviors>
+                    <local:PhoneNoValidatorBehavior x:Name="phoneNoValidator" />
+                </Entry.Behaviors>
+            </Entry>
+
+            <Image x:Name="phoneNoSuccessErrorImage"
+                   Grid.Row="2"
+                   Grid.Column="2"
+                   Style="{Binding Source={x:Reference phoneNoValidator},
+                                   Path=IsValid,
+                                   Converter={StaticResource boolToStyleImage}}" />
+
+            <Label Grid.Row="3"
+                   Grid.Column="1"
+                   Style="{Binding Source={x:Reference phoneNoValidator},
+                                   Path=IsValid,
+                                   Converter={StaticResource boolToStylePhoneNo}}" />
+
+            <Entry Grid.Row="4"
+                   Grid.Column="1"
+                   Placeholder="Age">
+                <Entry.Behaviors>
+                    <local:NumberValidatorBehavior x:Name="ageValidator" />
+                    <local:MaxLengthValidator MaxLength="2" />
+                </Entry.Behaviors>
+            </Entry>
+
+            <Image x:Name="ageSuccessErrorImage"
+                   Grid.Row="4"
+                   Grid.Column="2"
+                   Style="{Binding Source={x:Reference ageValidator},
+                                   Path=IsValid,
+                                   Converter={StaticResource boolToStyleImage}}" />
+
+            <Label Grid.Row="5"
+                   Grid.Column="1"
+                   Style="{Binding Source={x:Reference ageValidator},
+                                   Path=IsValid,
+                                   Converter={StaticResource boolToStyleAge}}" />
+
+
+            <Entry Grid.Row="6"
+                   Grid.Column="1"
+                   Placeholder="Address">
+                <Entry.Behaviors>
+                    <local:AddressValidatorBehavior x:Name="addressValidator" />
+                </Entry.Behaviors>
+            </Entry>
+
+            <Image x:Name="addressSuccessErrorImage"
+                   Grid.Row="6"
+                   Grid.Column="2"
+                   Style="{Binding Source={x:Reference addressValidator},
+                                   Path=IsValid,
+                                   Converter={StaticResource boolToStyleImage}}" />
+
+            <Label Grid.Row="7"
+                   Grid.Column="1"
+                   Style="{Binding Source={x:Reference addressValidator},
+                                   Path=IsValid,
+                                   Converter={StaticResource boolToStyleAddress}}" />
+
+            <Entry Grid.Row="8"
+                   Grid.Column="1"
+                   Placeholder="Url">
+                <Entry.Behaviors>
+                    <local:UrlValidatorBehavior x:Name="urlValidator" />
+                </Entry.Behaviors>
+            </Entry>
+
+            <Image x:Name="urlSuccessErrorImage"
+                   Grid.Row="8"
+                   Grid.Column="2"
+                   Style="{Binding Source={x:Reference urlValidator},
+                                   Path=IsValid,
+                                   Converter={StaticResource boolToStyleImage}}" />
+
+            <Label Grid.Row="9"
+                   Grid.Column="1"
+                   Style="{Binding Source={x:Reference urlValidator},
+                                   Path=IsValid,
+                                   Converter={StaticResource boolToStyleUrl}}" />
+
+
+            <Entry Grid.Row="10"
+                   Grid.Column="1"
+                   Placeholder="Date">
+                <Entry.Behaviors>
+                    <local:DateValidatorBehavior x:Name="dateValidator" />
+                </Entry.Behaviors>
+            </Entry>
+
+            <Image x:Name="dateSuccessErrorImage"
+                   Grid.Row="10"
+                   Grid.Column="2"
+                   Style="{Binding Source={x:Reference dateValidator},
+                                   Path=IsValid,
+                                   Converter={StaticResource boolToStyleImage}}" />
+
+            <Label Grid.Row="11"
+                   Grid.Column="1"
+                   Style="{Binding Source={x:Reference dateValidator},
+                                   Path=IsValid,
+                                   Converter={StaticResource boolToStyleDate}}" />
+
+            <Button x:Name="Submit"
+                    Grid.Row="12"
+                    Grid.Column="1"
+                    Clicked="btn_Submit"
+                    Text="Register" />
+        </Grid>
+
+    </StackLayout>
+
+
+</ContentPage>

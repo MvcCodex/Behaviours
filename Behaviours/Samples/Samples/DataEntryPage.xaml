@@ -1,0 +1,275 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="Samples.DataEntryPage"
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Samples;assembly=Samples"
+             Padding="50, 20">
+    <ContentPage.Resources>
+
+        <ResourceDictionary>
+
+            <local:BooleanToObjectConverter x:Key="boolToStyleImage" x:TypeArguments="Style">
+                <local:BooleanToObjectConverter.FalseObject>
+                    <Style TargetType="Image">
+                        <Setter Property="HeightRequest" Value="20" />
+                        <Setter Property="Source" Value="{local:ImageResource Samples.Images.error.png}" />
+                    </Style>
+                </local:BooleanToObjectConverter.FalseObject>
+
+                <local:BooleanToObjectConverter.TrueObject>
+                    <Style TargetType="Image">
+                        <Setter Property="HeightRequest" Value="20" />
+                        <Setter Property="Source" Value="{local:ImageResource Samples.Images.success.png}" />
+                    </Style>
+                </local:BooleanToObjectConverter.TrueObject>
+            </local:BooleanToObjectConverter>
+
+            <Style x:Key="baseStyle" TargetType="Label">
+                <Setter Property="XAlign" Value="Start" />
+                <Setter Property="YAlign" Value="Center" />
+                <Setter Property="FontSize" Value="Micro" />
+                <Setter Property="FontAttributes" Value="Italic" />
+            </Style>
+
+            <local:BooleanToObjectConverter x:Key="boolToStyleEmail" x:TypeArguments="Style">
+                <local:BooleanToObjectConverter.FalseObject>
+                    <Style BasedOn="{StaticResource baseStyle}" TargetType="Label">
+                        <Setter Property="TextColor" Value="#F44336" />
+                        <Setter Property="Text" Value="Enter a valid email" />
+                    </Style>
+                </local:BooleanToObjectConverter.FalseObject>
+
+                <local:BooleanToObjectConverter.TrueObject>
+                    <Style BasedOn="{StaticResource baseStyle}" TargetType="Label">
+                        <Setter Property="TextColor" Value="#4CAF50" />
+                        <Setter Property="Text" Value="Your email looks good" />
+                    </Style>
+                </local:BooleanToObjectConverter.TrueObject>
+
+            </local:BooleanToObjectConverter>
+
+            <local:BooleanToObjectConverter x:Key="boolToStyleAge" x:TypeArguments="Style">
+                <local:BooleanToObjectConverter.FalseObject>
+                    <Style BasedOn="{StaticResource baseStyle}" TargetType="Label">
+                        <Setter Property="TextColor" Value="#F44336" />
+                        <Setter Property="Text" Value="Enter numeric values" />
+                    </Style>
+                </local:BooleanToObjectConverter.FalseObject>
+
+                <local:BooleanToObjectConverter.TrueObject>
+                    <Style BasedOn="{StaticResource baseStyle}" TargetType="Label">
+                        <Setter Property="TextColor" Value="#4CAF50" />
+                        <Setter Property="Text" Value="You are very young!" />
+                    </Style>
+                </local:BooleanToObjectConverter.TrueObject>
+
+            </local:BooleanToObjectConverter>
+
+            <local:BooleanToObjectConverter x:Key="boolToStyleUserName" x:TypeArguments="Style">
+                <local:BooleanToObjectConverter.FalseObject>
+                    <Style BasedOn="{StaticResource baseStyle}" TargetType="Label">
+                        <Setter Property="TextColor" Value="#F44336" />
+                        <Setter Property="Text" Value="Enter a valid User Name" />
+                    </Style>
+                </local:BooleanToObjectConverter.FalseObject>
+
+                <local:BooleanToObjectConverter.TrueObject>
+                    <Style BasedOn="{StaticResource baseStyle}" TargetType="Label">
+                        <Setter Property="TextColor" Value="#4CAF50" />
+                        <Setter Property="Text" Value="You are valid user" />
+                    </Style>
+                </local:BooleanToObjectConverter.TrueObject>
+
+            </local:BooleanToObjectConverter>
+
+
+            <local:GenderConverter x:Key="genderConverter" />
+
+        </ResourceDictionary>
+
+    </ContentPage.Resources>
+
+    <StackLayout>
+        <Grid>
+
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="40" />
+            </Grid.ColumnDefinitions>
+
+            <Entry Grid.Row="0"
+                   Grid.Column="1"
+                   Placeholder="Email">
+                <Entry.Behaviors>
+                    <local:EmailValidatorBehavior x:Name="emailValidator" />
+                </Entry.Behaviors>
+            </Entry>
+
+            <Image x:Name="emailSuccessErrorImage"
+                   Grid.Row="0"
+                   Grid.Column="2"
+                   Style="{Binding Source={x:Reference emailValidator},
+                                   Path=IsValid,
+                                   Converter={StaticResource boolToStyleImage}}" />
+
+            <Label Grid.Row="1"
+                   Grid.Column="1"
+                   Style="{Binding Source={x:Reference emailValidator},
+                                   Path=IsValid,
+                                   Converter={StaticResource boolToStyleEmail}}" />
+
+            <Entry Grid.Row="2"
+                   Grid.Column="1"
+                   Placeholder="Age">
+                <Entry.Behaviors>
+                    <local:NumberValidatorBehavior x:Name="ageValidator" />
+                    <local:MaxLengthValidator MaxLength="2" />
+                </Entry.Behaviors>
+            </Entry>
+
+            <Image x:Name="ageSuccessErrorImage"
+                   Grid.Row="2"
+                   Grid.Column="2"
+                   Style="{Binding Source={x:Reference ageValidator},
+                                   Path=IsValid,
+                                   Converter={StaticResource boolToStyleImage}}" />
+
+            <Label Grid.Row="3"
+                   Grid.Column="1"
+                   Style="{Binding Source={x:Reference ageValidator},
+                                   Path=IsValid,
+                                   Converter={StaticResource boolToStyleAge}}" />
+
+            <Picker Title="Gender"
+                    Grid.Row="4"
+                    Grid.Column="1">
+                <Picker.Behaviors>
+                    <local:PickerBehavior x:Name="pickerBehavior" />
+                </Picker.Behaviors>
+                <Picker.Items>
+                    <x:String />
+                    <x:String>Male</x:String>
+                    <x:String>Female</x:String>
+                </Picker.Items>
+            </Picker>
+
+            <Label Grid.Row="5"
+                   Grid.Column="1"
+                   Text="{Binding Source={x:Reference pickerBehavior},
+                                  Path=SelectedItem,
+                                  Converter={StaticResource genderConverter}}"
+                   TextColor="#4CAF50" />
+
+            <Entry Grid.Row="6"
+                   Grid.Column="1"
+                   Placeholder="Username">
+                <Entry.Behaviors>
+                    <local:UserValidatorBehavior x:Name="userValidator" />
+                </Entry.Behaviors>
+            </Entry>
+
+            <Image x:Name="userSuccessErrorImage"
+                   Grid.Row="6"
+                   Grid.Column="2"
+                   Style="{Binding Source={x:Reference userValidator},
+                                   Path=IsValid,
+                                   Converter={StaticResource boolToStyleImage}}" />
+
+            <Label Grid.Row="7"
+                   Grid.Column="1"
+                   Style="{Binding Source={x:Reference userValidator},
+                                   Path=IsValid,
+                                   Converter={StaticResource boolToStyleUserName}}" />
+
+        </Grid>
+
+        <Label Text="Say something about this app" />
+
+        <StackLayout HeightRequest="70" Orientation="Horizontal">
+            <Grid>
+                <Grid.Behaviors>
+                    <local:StarBehavior x:Name="starOne" GroupName="myStar" />
+                </Grid.Behaviors>
+                <Image x:Name="starBlankOne" Source="{local:ImageResource Samples.Images.star_outline.png}" />
+
+                <Image x:Name="starSelectedOne"
+                       IsVisible="{Binding Source={x:Reference starOne},
+                                           Path=IsStarred}"
+                       Source="{local:ImageResource Samples.Images.star_selected.png}" />
+            </Grid>
+            <Grid>
+                <Grid.Behaviors>
+                    <local:StarBehavior x:Name="starTwo" GroupName="myStar" />
+                </Grid.Behaviors>
+                <Image x:Name="starBlankTwo" Source="{local:ImageResource Samples.Images.star_outline.png}" />
+
+                <Image x:Name="starSelectedTwo"
+                       IsVisible="{Binding Source={x:Reference starTwo},
+                                           Path=IsStarred}"
+                       Source="{local:ImageResource Samples.Images.star_selected.png}" />
+            </Grid>
+            <Grid>
+                <Grid.Behaviors>
+                    <local:StarBehavior x:Name="starThree" GroupName="myStar" />
+                </Grid.Behaviors>
+                <Image x:Name="starBlankThree" Source="{local:ImageResource Samples.Images.star_outline.png}" />
+
+                <Image x:Name="starSelectedThree"
+                       IsVisible="{Binding Source={x:Reference starThree},
+                                           Path=IsStarred}"
+                       Source="{local:ImageResource Samples.Images.star_selected.png}" />
+            </Grid>
+            <Grid>
+                <Grid.Behaviors>
+                    <local:StarBehavior x:Name="starFour" GroupName="myStar" />
+                </Grid.Behaviors>
+                <Image x:Name="starBlankFour" Source="{local:ImageResource Samples.Images.star_outline.png}" />
+
+                <Image x:Name="starSelectedFour"
+                       IsVisible="{Binding Source={x:Reference starFour},
+                                           Path=IsStarred}"
+                       Source="{local:ImageResource Samples.Images.star_selected.png}" />
+            </Grid>
+            <Grid>
+                <Grid.Behaviors>
+                    <local:StarBehavior x:Name="starFive" GroupName="myStar" />
+                </Grid.Behaviors>
+                <Image x:Name="starBlankFive" Source="{local:ImageResource Samples.Images.star_outline.png}" />
+
+                <Image x:Name="starSelectedFive"
+                       IsVisible="{Binding Source={x:Reference starFive},
+                                           Path=IsStarred}"
+                       Source="{local:ImageResource Samples.Images.star_selected.png}" />
+            </Grid>
+        </StackLayout>
+
+        <StackLayout>
+            <StackLayout.Resources>
+                <ResourceDictionary>
+                    <local:RatingConverter x:Key="ratingConverter" />
+                    <Style BasedOn="{StaticResource baseStyle}" TargetType="Label">
+                        <Setter Property="TextColor" Value="#4CAF50" />
+                    </Style>
+                </ResourceDictionary>
+            </StackLayout.Resources>
+            <Label Text="{Binding Source={x:Reference starFive}, Path=Rating, Converter={StaticResource ratingConverter}}" />
+        </StackLayout>
+
+        <Button Text="Submit" />
+
+    </StackLayout>
+
+</ContentPage>
